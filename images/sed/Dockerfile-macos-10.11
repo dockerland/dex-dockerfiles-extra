@@ -1,0 +1,25 @@
+FROM debian:jessie
+
+#
+# v1 dex-api
+#
+
+LABEL org.dockerland.dex.api="v1"
+
+#
+# sed:macos image
+#
+
+RUN apt-get update && apt-get install -y \
+  curl \
+  libbsd-dev \
+  gcc \
+  patch \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY macos.patch /tmp/macos.patch
+RUN curl http://opensource.apple.com/tarballs/text_cmds/text_cmds-88.tar.gz | tar -C /tmp -xzf - && \
+  ( cd /tmp/text_cmds-88 ; patch -p1 < /tmp/macos.patch ) && \
+  ( cd /tmp/text_cmds-88/sed ; gcc -lbsd compile.c main.c misc.c process.c -w -o /usr/local/bin/sed )
+
+ENTRYPOINT ["/usr/local/bin/sed"]
