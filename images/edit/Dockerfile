@@ -5,8 +5,11 @@ FROM briceburg/dosemu:latest
 #
 
 LABEL org.dockerland.dex.api="v1"
-LABEL org.dockerland.dex.docker_flags="--interactive --tty -v @RESOLVED_PATH__1:/dex/resolved_path/1/"
+LABEL org.dockerland.dex.docker_flags="--interactive --tty"
 LABEL org.dockerland.dex.docker_home="deltree"
+
+# exposes host root as /dex/rootfs in container
+LABEL org.dockerland.dex.expose_rootfs="true"
 
 
 #
