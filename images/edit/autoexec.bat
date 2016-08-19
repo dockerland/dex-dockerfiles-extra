@@ -10,6 +10,7 @@ lredir d: linux\fs%DOSDRIVE_D%
 :nodrived
 lredir w: linux\fs/dex/workspace
 lredir r: linux\fs/dex/rootfs
-unix -s DEX_HOST_CWD 
+unix -s DEX_DOCKER_WORKSPACE_DOS
 R:
-cd %DEX_HOST_CWD%
+cd %DEX_DOCKER_WORKSPACE_DOS%
+unix -e
