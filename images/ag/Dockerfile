@@ -1,15 +1,18 @@
-FROM alpine
+FROM alpine:3.4
 
-RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+#
+# v1 dex-api
+#
+
+LABEL org.dockerland.dex.api="v1"
+LABEL org.dockerland.dex.docker_flags="--interactive --tty"
+
+#
+# ag image
+#
 
 RUN apk add --update \
-    the_silver_searcher@testing \
-    && rm -rf /var/cache/apk/*
-
-RUN mkdir -p /workspace
-
-WORKDIR /workspace
-
-VOLUME /workspace
+    the_silver_searcher \
+  && rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["ag"]
