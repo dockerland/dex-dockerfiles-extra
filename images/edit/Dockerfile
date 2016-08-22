@@ -1,23 +1,9 @@
-FROM briceburg/dosemu:latest
-
-#
-# v1 dex-api
-#
-
-LABEL org.dockerland.dex.api="v1"
-LABEL org.dockerland.dex.docker_flags="--interactive --tty -v /:/dex/rootfs:rw"
-LABEL org.dockerland.dex.docker_home="edit"
-
-#
-# edit image
-#
-
-RUN chmod 777 /etc/dosemu/dosemu.conf ; \
-   echo "\$_cpu_emu = \"vm86\"" >> /etc/dosemu/dosemu.conf ; \
-   echo "\$_cdrom  = \"\"" >> /etc/dosemu/dosemu.conf ; \
-   echo "all nosuidroot guest" >> /etc/dosemu/dosemu.users
+FROM briceburg/dosemu2:dex
 
 
-COPY autoexec.bat /etc/dosemu/freedos/autoexec.bat
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# see dosemu2 manpage for flags,
+#  https://github.com/stsp/dosemu2/tree/devel/man
+# (run container w/ --entrypoint=bash , then `man dosemu`)
+ENV \
+  DOSEMU_CMD="edit" \
+  DOSEMU_FLAGS=
