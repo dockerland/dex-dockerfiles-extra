@@ -1,9 +1,9 @@
 FROM briceburg/dosemu2:dex
 
+#
+# dex edit:latest image
+#
 
-# see dosemu2 manpage for flags,
-#  https://github.com/stsp/dosemu2/tree/devel/man
-# (run container w/ --entrypoint=bash , then `man dosemu`)
 ENV \
   DOSEMU_CMD="edit" \
   DOSEMU_FLAGS=

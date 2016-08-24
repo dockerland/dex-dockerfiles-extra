@@ -1,14 +1,7 @@
 FROM alpine:3.4
 
 #
-# v1 dex-api
-#
-
-LABEL org.dockerland.dex.api="v1"
-LABEL org.dockerland.dex.docker_flags="--interactive --tty"
-
-#
-# ag image
+# dex ag:latest image
 #
 
 RUN apk add --update \
@@ -16,3 +9,12 @@ RUN apk add --update \
   && rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["ag"]
+
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_flags="--interactive --tty"

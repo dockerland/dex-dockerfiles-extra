@@ -1,21 +1,22 @@
-# FROM debian
+FROM alpine:3.4
 
-# RUN apt-get update -qq && \
-#   apt-get -yqq install gitk && \
-#   apt-get -yqq clean
-FROM alpine:edge
+#
+# dex gitk:latest image
+#
 
 RUN apk add --update \
     git-gitk \
     ttf-droid \
-    && rm -rf /var/cache/apk/*
-
-RUN mkdir -p /workspace
-
-# ENV HOME="/tmp"
-# USER nobody
-WORKDIR /workspace
-
-VOLUME /workspace
+  && rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["gitk"]
+
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_workspace="$(git rev-parse --show-toplevel)" \
+  org.dockerland.dex.window="true"

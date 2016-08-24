@@ -1,13 +1,7 @@
 FROM debian:jessie
 
 #
-# v1 dex-api
-#
-
-LABEL org.dockerland.dex.api="v1"
-
-#
-# sed:macos image
+# dex sed:macos image
 #
 
 RUN apt-get update && apt-get install -y \
@@ -23,3 +17,10 @@ RUN curl http://opensource.apple.com/tarballs/text_cmds/text_cmds-88.tar.gz | ta
   ( cd /tmp/text_cmds-88/sed ; gcc -lbsd compile.c main.c misc.c process.c -w -o /usr/local/bin/sed )
 
 ENTRYPOINT ["/usr/local/bin/sed"]
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1"

@@ -1,10 +1,14 @@
 FROM jess/chrome
 
 #
-# v1 dex-api
+# dex chrome:latest image
 #
 
-# @TODO alleviate --cap-add=SYS_ADMIN on ArchLinux
+CMD ["--force-device-scale-factor=1"]
+
+#
+# v1 dex-api
+#
 
 LABEL \
   org.dockerland.dex.api="v1" \
@@ -13,9 +17,3 @@ LABEL \
   org.dockerland.dex.docker_volumes="/dev/shm /etc/localtime:/etc/localtime:ro" \
   org.dockerland.dex.docker_home="~" \
   org.dockerland.dex.window="true"
-
-#
-# chrome image
-#
-
-CMD ["--force-device-scale-factor=1"]

@@ -1,13 +1,14 @@
 FROM alpine:3.4
 
 #
-# v1 dex-api
-#
-
-LABEL org.dockerland.dex.api="v1"
-
-#
-# sed:musl image
+# dex sed:musl image
 #
 
 ENTRYPOINT ["sed"]
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1"

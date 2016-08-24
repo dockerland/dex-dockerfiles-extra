@@ -1,0 +1,41 @@
+FROM php:7-cli
+
+#
+# dex magerun:1 image
+#
+
+RUN apt-get update && apt-get install -y \
+    bzip2 \
+    curl \
+    git \
+    openssh-client \
+    libcurl4-openssl-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    libjpeg-dev \
+    libmcrypt-dev \
+    libpng12-dev \
+    libxml2-dev \
+    libxslt1-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+
+# n98-magerun1
+RUN \
+  N98_VERSION="1.97.22" ; \
+  N98_MD5="0d00a825e331fabe2d2fda0e04fcc336" ; \
+  curl -Lfo /usr/local/bin/n98-magerun \
+    https://files.magerun.net/n98-magerun-${N98_VERSION}.phar && \
+  chmod +x /usr/local/bin/n98-magerun ; \
+  [ "$(md5sum /usr/local/bin/n98-magerun | awk {'print $1'})" = "$N98_MD5" ] || exit 99
+
+ENTRYPOINT ["/usr/local/bin/n98-magerun"]
+CMD ["list"]
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_home="~"
