@@ -1,0 +1,3 @@
+C:
+cd app
+rebel
