@@ -1,0 +1,3 @@
+FROM briceburg/ansible:2.1-dex-docker
+
+ENTRYPOINT ["ansible-galaxy"]
