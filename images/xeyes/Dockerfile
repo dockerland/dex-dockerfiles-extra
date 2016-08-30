@@ -5,6 +5,8 @@ FROM alpine:edge
 #
 
 RUN apk add --update \
+    socat \
+    strace \
     xeyes\
   && rm -rf /var/cache/apk/*
 
