@@ -1,15 +1,8 @@
-FROM debian:jessie
+FROM briceburg/macos:build
 
 #
 # dex sed:macos image
 #
-
-RUN apt-get update && apt-get install -y \
-  curl \
-  libbsd-dev \
-  gcc \
-  patch \
-  && rm -rf /var/lib/apt/lists/*
 
 COPY macos.patch /tmp/macos.patch
 RUN curl http://opensource.apple.com/tarballs/text_cmds/text_cmds-88.tar.gz | tar -C /tmp -xzf - && \
