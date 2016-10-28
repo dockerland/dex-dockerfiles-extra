@@ -1,0 +1,17 @@
+FROM node:6
+
+#
+# dex yarn:6-debian image
+#
+
+RUN npm install -g --progress=false yarn
+
+ENTRYPOINT ["/usr/local/bin/yarn"]
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_home="~"
