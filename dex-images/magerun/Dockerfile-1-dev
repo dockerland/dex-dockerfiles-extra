@@ -1,0 +1,24 @@
+FROM briceburg/php:magento-7-cli
+
+#
+# dex magerun:1 image
+#
+
+
+# n98-magerun1 [development]
+ARG CACHE_BUST
+RUN \
+  curl -Lfo /usr/local/bin/n98-magerun \
+    https://files.magerun.net/n98-magerun-dev.phar && \
+  chmod +x /usr/local/bin/n98-magerun
+
+ENTRYPOINT ["/usr/local/bin/n98-magerun"]
+CMD ["list"]
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_home="~"
