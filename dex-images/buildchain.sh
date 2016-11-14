@@ -15,12 +15,12 @@ display_help() {
   Usage: buildchain.sh <image>[:<tag>] ...[<image>[:<tag>]]
 
   Options:
-    --pull | -p          pull source images when building
-
-    --registry | -r      specify registry to push to
+    -r | --registry      specify registry to push to
                          [$REGISTRY]
 
-    --skip-push | -s     skip pushing to registry, only build
+    --skip-pull          pull source images when building
+    --skip-push          skip pushing to registry, only build
+    --skip-cache         skips the docker cache (passes --no-cache to build)
 
 EOF
 
@@ -33,7 +33,8 @@ exit $1
 __cwd=$( cd $(dirname $0) ; pwd -P )
 REGISTRY="dexbuilds"
 SKIP_PUSH=false
-PULL=false
+SKIP_PULL=false
+SKIP_CACHE=false
 
 # functions
 ###########
@@ -46,17 +47,21 @@ build_image(){
   }
 
   local random=$(LC_CTYPE=C tr -dc 'a-zA-Z0-9-_' < /dev/urandom | head -c10)
-  local cachebust=
+  local flags=
   local pull=
+  local skipcache=
 
   grep -q "^ARG CACHE_BUST" $3 &&  \
-    cachebust="--build-arg CACHE_BUST=$random"
+    flags+=" --build-arg CACHE_BUST=$random"
 
-  $PULL && \
-    pull="--pull"
+  $SKIP_PULL || \
+    flags+=" --pull"
+
+  $SKIP_CACHE && \
+    flags+=" --no-cache"
 
   warn "  + building $1:$2 from $3 ..."
-  __local_docker build -t $1:$2 -f $3 $cachebust $pull  . || return 1
+  __local_docker build -t $1:$2 -f $3 $flags  . || return 1
   __local_docker tag $1:$2 $REGISTRY/$1:$2 || return 1
 
   $SKIP_PUSH && return
@@ -124,9 +129,10 @@ else
   while [ $# -ne 0 ]; do
     case $1 in
       -h|--help|help)   display_help ;;
-      -p|--pull)        PULL=true ;;
       -r|--registry)    REGISTRY="$2" ; shift ;;
-      -s|--skip-push)   SKIP_PUSH=true ;;
+      --skip-pull)      SKIP_PULL=true ;;
+      --skip-push)      SKIP_PUSH=true ;;
+      --skip-cache)     SKIP_CACHE=true ;;
       --)               shift ; __operand_args="$@" ; break ;;
       -*)               unrecognized_flag $1 ;;
       *)                __operand_args+=" $1" ;;
