@@ -8,7 +8,7 @@ FROM briceburg/php:magento-7-cli
 # n98-magerun1
 RUN \
   N98_VERSION="1.97.22" ; \
-  N98_MD5="0d00a825e331fabe2d2fda0e04fcc336" ; \
+  N98_MD5="08cd1a0cdb0ca3d34d4c122ff2996f24" ; \
   curl -Lfo /usr/local/bin/n98-magerun \
     https://files.magerun.net/n98-magerun-${N98_VERSION}.phar && \
   chmod +x /usr/local/bin/n98-magerun ; \
