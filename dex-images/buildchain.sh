@@ -90,16 +90,14 @@ build_images(){
         __tag=${__filename//Dockerfile-/}
         __tag=${__tag//Dockerfile/latest}
 
+
         [ -L $Dockerfile ] && {
           Dockerfile=$(readlink $Dockerfile)
           __filename=${Dockerfile%.*}
           __extension=${Dockerfile##*.}
         }
-
-        if [ "$__filename" = "$__extension" ]; then
-          log "+ detected non-templated $Dockerfile"
-
-          build_image $build_image $__tag $Dockerfile
+        if [ "$__extension" = "vars" ]; then
+          continue
         elif [ "$__extension" = "j2" ]; then
           __vars_files=()
           [ -e Dockerfile.vars ] && __vars_files+=( Dockerfile.vars )
@@ -114,6 +112,9 @@ build_images(){
 
           Dockerfile=Dockerfile.rendered
           build_image $build_image $__tag Dockerfile.rendered
+        else
+          log "+ detected non-templated $Dockerfile"
+          build_image $build_image $__tag $Dockerfile
         fi
       done
     )
