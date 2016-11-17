@@ -124,7 +124,7 @@ build_images(){
 if [ $# -eq 0 ]; then
   display_help 1
 else
-  set -- $(normalize_flags_first "" "$@")
+  set -- $(normalize_flags_first "r" "$@")
   __operand="build_images"
   __operand_args=
   while [ $# -ne 0 ]; do
