@@ -4,15 +4,14 @@ ENV \
   DEXBUILD_NAME="cop" \
   DEXBUILD_REPO="https://github.com/jasmith590/COP.git" \
   DEXBUILD_REF="develop" \
-  DEXBUILD_DIR="/build" \
-  DEXBUILD_TMPDIR="/build/tmp"
+  DEXBUILD_DIR="{{ DEXBUILD_DIR | default('/build') }}"
 
 #
 # build context and pre-requisites
 #
 
 RUN ( \
-  mkdir -p "${DEXBUILD_DIR}" "${DEXBUILD_TMPDIR}" &&\
+  mkdir -p "${DEXBUILD_DIR}" &&\
 true )
 
 WORKDIR ${DEXBUILD_DIR}
@@ -31,7 +30,6 @@ RUN ( \
   git fetch dexbuild $DEXBUILD_REF &&\
   GIT_WORK_TREE="${DEXBUILD_DIR}" git checkout -f FETCH_HEAD &&\
   rm -rf .git && \
-  rm -rf "${DEXBUILD_TMPDIR}" &&\
   npm install &&\
 true )
 
@@ -40,7 +38,7 @@ true )
 # container runtime configuration
 #
 
-ENTRYPOINT ["${DEXBUILD_DIR}/bin/cop"]
+ENTRYPOINT ["{{ DEXBUILD_DIR | default('/build') }}/cop"]
 
 
 #
