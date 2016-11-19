@@ -51,8 +51,8 @@ build_image(){
   local pull=
   local skipcache=
 
-  grep -q "^ARG CACHE_BUST" $3 &&  \
-    flags+=" --build-arg CACHE_BUST=$random"
+  grep -q "^ARG DEXBUILD_NOCACHE" $3 &&  \
+    flags+=" --build-arg DEXBUILD_NOCACHE=$random"
 
   $SKIP_PULL || \
     flags+=" --pull"

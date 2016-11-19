@@ -5,7 +5,7 @@ FROM briceburg/php:magento-7-cli
 #
 
 # n98-magerun2 [development]
-ARG CACHE_BUST
+ARG DEXBUILD_NOCACHE
 RUN \
   curl -Lfo /usr/local/bin/n98-magerun2 \
     https://files.magerun.net/n98-magerun2-dev.phar && \
