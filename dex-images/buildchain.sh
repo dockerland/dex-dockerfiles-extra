@@ -90,12 +90,12 @@ build_images(){
         __tag=${__filename//Dockerfile-/}
         __tag=${__tag//Dockerfile/latest}
 
-
-        [ -L $Dockerfile ] && {
+        while [ -L $Dockerfile ]; do
           Dockerfile=$(readlink $Dockerfile)
           __filename=${Dockerfile%.*}
           __extension=${Dockerfile##*.}
-        }
+        done
+        
         if [ "$__extension" = "vars" ]; then
           continue
         elif [ "$__extension" = "j2" ]; then
