@@ -1,14 +1,10 @@
 FROM briceburg/node:6
 
-ENV \
-  DEXBUILD_NAME="cop" \
-  DEXBUILD_REPO="https://github.com/jasmith590/COP.git" \
-  DEXBUILD_REF="0.5.0" \
-  DEXBUILD_DIR="{{ DEXBUILD_DIR | default('/build') }}"
-
 #
 # build context and pre-requisites
 #
+
+ENV DEXBUILD_DIR="/build"
 
 RUN ( \
   mkdir -p "${DEXBUILD_DIR}" &&\
@@ -21,13 +17,15 @@ WORKDIR ${DEXBUILD_DIR}
 # application installation and user stubbing
 #
 
-# if DEXBUILD_REF never changes, you may want to bust the docker-build cache...
+# if REF never changes, you may want to bust the docker-build cache...
 # ARG DEXBUILD_NOCACHE
 
 RUN ( \
+  REPO="https://github.com/jasmith590/COP.git" &&\
+  REF="0.5.0" &&\
   git init &&\
-  git remote add dexbuild $DEXBUILD_REPO &&\
-  git fetch dexbuild $DEXBUILD_REF &&\
+  git remote add dexbuild $REPO &&\
+  git fetch dexbuild $REF &&\
   GIT_WORK_TREE="${DEXBUILD_DIR}" git checkout -f FETCH_HEAD &&\
   rm -rf .git && \
   npm install &&\
@@ -38,7 +36,7 @@ true )
 # container runtime configuration
 #
 
-ENTRYPOINT ["{{ DEXBUILD_DIR | default('/build') }}/bin/cop"]
+ENTRYPOINT ["/build/bin/cop"]
 
 
 #
