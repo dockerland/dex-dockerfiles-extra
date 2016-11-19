@@ -38,7 +38,7 @@ true )
 # container runtime configuration
 #
 
-ENTRYPOINT ["{{ DEXBUILD_DIR | default('/build') }}/cop"]
+ENTRYPOINT ["{{ DEXBUILD_DIR | default('/build') }}/bin/cop"]
 
 
 #
@@ -47,4 +47,5 @@ ENTRYPOINT ["{{ DEXBUILD_DIR | default('/build') }}/cop"]
 
 LABEL \
   org.dockerland.dex.api="v1" \
-  org.dockerland.dex.docker_flags="--interactive --tty"
+  org.dockerland.dex.docker_flags="--interactive --tty" \
+  org.dockerland.dex.docker_envars="COP_*"
