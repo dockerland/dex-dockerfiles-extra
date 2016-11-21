@@ -71,7 +71,7 @@ build_image(){
 
 build_images(){
 
-  for build in $@; do
+  for build in "$@"; do
     IFS=":" read -r build_image build_tag <<< $build
 
     echo
@@ -95,7 +95,7 @@ build_images(){
           __filename=${Dockerfile%.*}
           __extension=${Dockerfile##*.}
         done
-        
+
         if [ "$__extension" = "vars" ]; then
           continue
         elif [ "$__extension" = "j2" ]; then
