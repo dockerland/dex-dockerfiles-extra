@@ -1,0 +1,51 @@
+FROM buildpack-deps:jessie
+
+#
+# build context and pre-requisites
+#
+
+RUN ( \
+  apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    bison \
+    &&\
+  rm -rf /var/lib/apt/lists/* &&\
+true )
+
+#
+# application installation and user stubbing
+#
+
+RUN ( \
+  cd /tmp &&\
+  VERSION="4.4" &&\
+  GPG_KEY="BB5869F064EA74AB" &&\
+  URL="http://ftpmirror.gnu.org/bash/bash-${VERSION}.tar.gz" &&\
+  curl -LfO ${URL} &&\
+  curl -LfO ${URL}.sig &&\
+  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" &&\
+  gpg --verify bash-${VERSION}.tar.gz.sig &&\
+  tar xf bash-${VERSION}.tar.gz && \
+  cd bash-${VERSION} &&\
+  autoconf &&\
+  ./configure &&\
+  make &&\
+  make install &&\
+  rm -rf * &&\
+true )
+
+
+#
+# container runtime configuration
+#
+
+ENTRYPOINT ["/usr/local/bin/bash"]
+
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_flags="--interactive --tty"
