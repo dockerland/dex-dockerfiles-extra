@@ -1,6 +1,6 @@
 FROM haskell:8
 
-ENTRYPOINT ["runhaskell"]
+ENTRYPOINT ["stack"]
 
 LABEL \
   org.dockerland.dex.api="v1" \
