@@ -1,0 +1,10 @@
+FROM briceburg/node:6
+
+ENTRYPOINT ["/usr/bin/npm"]
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" 
