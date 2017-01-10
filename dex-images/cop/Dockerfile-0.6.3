@@ -1,0 +1,49 @@
+FROM briceburg/node:6
+
+#
+# build context and pre-requisites
+#
+
+ENV DEXBUILD_DIR="/build"
+
+RUN ( \
+  mkdir -p "${DEXBUILD_DIR}" &&\
+true )
+
+WORKDIR ${DEXBUILD_DIR}
+
+
+#
+# application installation and user stubbing
+#
+
+# if REF never changes, you may want to bust the docker-build cache...
+# ARG DEXBUILD_NOCACHE
+
+RUN ( \
+  REPO="https://github.com/jasmith590/COP.git" &&\
+  REF="0.6.3" &&\
+  git init &&\
+  git remote add dexbuild $REPO &&\
+  git fetch dexbuild $REF &&\
+  GIT_WORK_TREE="${DEXBUILD_DIR}" git checkout -f FETCH_HEAD &&\
+  rm -rf .git && \
+  npm install &&\
+true )
+
+
+#
+# container runtime configuration
+#
+
+ENTRYPOINT ["/build/bin/cop"]
+
+
+#
+# v1 dex-api
+#
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_flags="--interactive --tty" \
+  org.dockerland.dex.docker_envars="COP_*"
