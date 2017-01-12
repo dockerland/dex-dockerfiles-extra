@@ -1,0 +1,33 @@
+FROM alpine:3.4
+
+RUN apk add --no-cache \
+  bash \
+  curl \
+  docker \
+  git \
+  nodejs \
+  openssh \
+  py-pip
+
+# docker-machine + compose
+RUN curl -L https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine && \
+  chmod +x /usr/local/bin/docker-machine && \
+  pip install docker-compose==1.8.1
+
+# cop
+RUN cop_version=0.6.2 && \
+  npm install -g "git+https://github.com/jasmith590/COP.git#0.6.2"
+
+# dockmaster
+RUN dockmaster_version=0.1.3 && \
+  curl -L http://get.iceburg.net/dockmaster/latest-0.1.x/dm > /usr/local/bin/dm && \
+  chmod +x /usr/local/bin/dm
+
+# runtime
+
+ENTRYPOINT ["dm"]
+
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_flags="--interactive --tty" \
+  org.dockerland.dex.docker_envars="DOCKMASTER_*"
