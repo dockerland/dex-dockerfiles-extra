@@ -1,17 +1,7 @@
-FROM briceburg/node:6
+FROM docksal/backstopjs:latest
 
-ENV \
-  APP_NAME="cop" \
-  APP_REPO="https://github.com/jasmith590/COP.git"
+RUN chmod -R 777 /usr/lib/node_modules
 
-# APPLICATION INSTALLATION
-###########################
-
-# clone app
-RUN git clone ${APP_REPO} /var/$APP_NAME && \
-  cd /var/$APP_NAME && npm install
-
-# IMAGE RUNTIME
-###############
-
-ENTRYPOINT ["/var/cop/bin/cop"]
+LABEL \
+  org.dockerland.dex.api="v1" \
+  org.dockerland.dex.docker_flags="-it --network=host"
