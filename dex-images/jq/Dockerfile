@@ -15,6 +15,4 @@ ENTRYPOINT ["jq"]
 # v1 dex-api
 #
 
-LABEL \
-  org.dockerland.dex.api="v1" \
-  org.dockerland.dex.docker_flags="--interactive --tty"
+LABEL org.dockerland.dex.api="v1"

@@ -19,5 +19,4 @@ ENTRYPOINT ["xeyes"]
 
 LABEL \
   org.dockerland.dex.api="v1" \
-  org.dockerland.dex.docker_flags="--interactive --tty" \
   org.dockerland.dex.window="true"

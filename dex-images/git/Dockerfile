@@ -13,6 +13,5 @@ ENTRYPOINT ["/nss-wrap.sh", "git"]
 
 LABEL \
   org.dockerland.dex.api="v1" \
-  org.dockerland.dex.docker_flags="--interactive --tty" \
   org.dockerland.dex.docker_home="~"
 # ^^^ bind mount HOME to user's real home
