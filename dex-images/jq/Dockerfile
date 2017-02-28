@@ -4,10 +4,7 @@ FROM alpine:3.4
 # dex jq:latest image
 #
 
-RUN apk add --update \
-    jq \
-  && rm -rf /var/cache/apk/*
-
+RUN apk add --no-cache jq
 ENTRYPOINT ["jq"]
 
 
