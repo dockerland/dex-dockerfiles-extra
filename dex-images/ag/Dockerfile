@@ -5,7 +5,7 @@ FROM alpine:3.4
 #
 
 RUN apk add --no-cache the_silver_searcher
-ENTRYPOINT ["ag"]
+ENTRYPOINT ["ag", "--search-files"]
 
 
 #
