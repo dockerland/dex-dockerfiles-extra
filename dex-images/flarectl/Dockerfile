@@ -2,7 +2,8 @@ FROM golang:1.8-alpine
 
 RUN apk add --no-cache curl git &&\
     go get github.com/cloudflare/cloudflare-go &&\
-    go install github.com/cloudflare/cloudflare-go/cmd/flarectl
+    go install github.com/cloudflare/cloudflare-go/cmd/flarectl &&\
+    rm -rf /go/src
 
 ENTRYPOINT ["/go/bin/flarectl"]
 
