@@ -14,4 +14,5 @@ ENTRYPOINT ["/app/doctl"]
 
 LABEL \
   org.dockerland.dex.api="v1" \
-  org.dockerland.dex.docker_envars="DIGITALOCEAN_*"
+  org.dockerland.dex.docker_envars="DIGITALOCEAN_*" \
+  org.dockerland.dex.host_users="rw"
